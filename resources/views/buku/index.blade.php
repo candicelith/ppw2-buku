@@ -1,14 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Buku</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-</head>
+@extends('layout.master')
 
+@section('content')
 <body class="bg-dark p-5 text-light">
+
+    @if (Session::has('pesan'))
+    <div class="alert alert-success">
+        {{ Session::get('pesan') }}
+    </div>
+    @endif
+
     <h1 class="text-center">Daftar Buku</h1>
     <a href="{{ route('buku.create') }}" class="btn btn-primary float-end mt-3 mb-3">Tambah Buku</a>
     <table class="table table-dark table-hover">
@@ -31,6 +31,7 @@
                     <td>{{ $buku->judul }}</td>
                     <td>{{ $buku->penulis }}</td>
                     <td>{{ "Rp." .number_format($buku->harga, 2, ',', '.') }}</td>
+                    {{-- <td>{{ $buku->tgl_terbit->format('d/m/Y') }}</td> --}}
                     <td>{{ \Carbon\Carbon::parse($buku->tgl_terbit)->format('d-m-Y') }}</td>
                     <td>
                         <form action="{{ route('buku.destroy', $buku->id) }}" method="POST">
@@ -40,9 +41,7 @@
                         </form>
                     </td>
                     <td>
-                        <form action="{{ route('buku.update', $buku->id) }}" method="POST">
-                            @csrf
-                            @method('PUT')
+                        <form action="{{ route('buku.update', $buku->id) }}">
                             <button type="submit" class="btn btn-info">Update</button>
                         </form>
                     </td>
@@ -52,10 +51,11 @@
     </table>
 
     <div class="text-light">
+        <div>{{ $data_buku->links() }}</div>
         <h1>Jumlah data yang ada adalah: </h1>
         <p>{{ $hitung_data }}</p>
         <h1>Total harga semua buku adalah: </h1>
         <p>{{ "Rp." .number_format($total_harga, 2, ',', '.') }}</p>
     </div>
 </body>
-</html>
+@endsection

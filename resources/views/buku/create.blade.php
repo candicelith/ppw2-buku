@@ -1,13 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Create</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-</head>
+@extends('layout.master')
 
+@section('content')
 <body class="bg-dark text-light p-2">
     <div class="container">
         <h4>Tambah Buku</h4>
@@ -29,7 +22,7 @@
             </div>
             <div class="form-group">
                 <label for="tgl_terbit">Tanggal Terbit</label>
-                <input type="date" class="form-control" name="tgl_terbit">
+                <input type="date" id="tgl_terbit" class="date form-control" name="tgl_terbit" placeholder="yyyy/mm/dd">
             </div>
             <div class="mt-3">
                 <button type="submit" class="btn btn-primary">Simpan</button>
@@ -37,5 +30,16 @@
             </div>
         </form>
     </div>
+
+    @if (count($errors) > 0)
+        <div class="alert alert-danger mt-3">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
 </body>
-</html>
+@endsection

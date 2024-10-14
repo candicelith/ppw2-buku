@@ -4,17 +4,19 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Buku;
+use Illuminate\Pagination\Paginator;
 
 class BukuController extends Controller
 {
     public function index() {
-        $data_buku = Buku::all();
-
+        $batas = 5;
+        Paginator::useBootstrapFive();
+        $data_buku = Buku::orderBy('id', 'desc')->paginate($batas);
         $hitung_data = $data_buku->count();
-
         $total_harga = $data_buku->sum('harga');
+        $no = $batas * ($data_buku->currentPage() - 1);
 
-        return view('buku.index', compact('data_buku', 'hitung_data', 'total_harga'));
+        return view('buku.index', compact('data_buku', 'hitung_data', 'total_harga', 'no'));
     }
 
     public function create() {
@@ -23,6 +25,13 @@ class BukuController extends Controller
     }
 
     public function store(Request $request) {
+        $this->validate($request, [
+            'judul' => 'required|string',
+            'penulis' => 'required|string|max:30',
+            'harga' => 'required|numeric',
+            'tgl_terbit' => 'required|date'
+        ]);
+
         $buku = new Buku();
         $buku->judul = $request->judul;
         $buku->penulis = $request->penulis;
@@ -30,7 +39,7 @@ class BukuController extends Controller
         $buku->tgl_terbit = $request->tgl_terbit;
         $buku->save();
 
-        return redirect('/buku');
+        return redirect('/buku')->with('status', 'Data Buku Berhasil Disimpan');
         // menerima input req kemudian di redirect ke buku.index
     }
 

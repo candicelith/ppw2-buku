@@ -11,4 +11,6 @@ class Buku extends Model
 
     // inisiasi tabel mana yang dipakai
     protected $table = 'books';
+
+    protected $dates = ['tgl_terbit'];
 }
