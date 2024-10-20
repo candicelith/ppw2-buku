@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('content')
-<body class="bg-dark text-light p-2">
+<body class="p-2">
     <div class="container">
         <h4>Tambah Buku</h4>
         <!-- form method POST untuk memasukkan buku ke db dgn route buku.store-->
