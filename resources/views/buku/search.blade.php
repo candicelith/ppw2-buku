@@ -1,4 +1,4 @@
-@extends('layout.master')
+@extends('auth.layout')
 
 @section('content')
 @if (count($data_buku))

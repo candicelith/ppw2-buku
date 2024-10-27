@@ -29,11 +29,11 @@
             <tbody>
                 @foreach ($data_buku as $index => $buku)
                     <tr>
-                        <td>{{$index + 1}}</td>
-                        <td>{{$buku->judul}}</td>
-                        <td>{{$buku->penulis}}</td>
-                        <td>{{"Rp. ".number_format($buku->harga, 2, '.', '.')}}</td>
-                        <td>{{\Carbon\Carbon::parse($buku->tgl_terbit)->format('d-m-Y')}}</td>
+                        <td>{{ $index + 1 }}</td>
+                        <td>{{ $buku->judul }}</td>
+                        <td>{{ $buku->penulis }}</td>
+                        <td>{{ "Rp. ".number_format($buku->harga, 2, '.', '.') }}</td>
+                        <td>{{ \Carbon\Carbon::parse($buku->tgl_terbit)->format('d-m-Y') }}</td>
                         <td>
                             <form action="{{ route('buku.destroy', $buku->id)}}" method="POST">
 
@@ -52,16 +52,13 @@
                         </td>
                     </tr>
                 @endforeach
-                {{-- <tr>
-                    <th scope="row" colspan="3" class="table-active table-primary border-black">Jumlah Harga</th>
-                    <td colspan="3">{{'Rp. '.number_format($totalPrice,  2, '.', '.')}}</td>
-                </tr>
-                <tr>
-                    <th scope="row" colspan="3" class="table-active table-primary border-black">Banyak Data</th>
-                    <td colspan="3">{{$countbuku}}</td>
-                </tr> --}}
             </tbody>
         </table>
+    </div>
+
+    <div>
+        <p><strong>Jumlah Total Buku:</strong> {{ $hitung_data }} </p>
+        <p><strong>Jumlah Total Harga:</strong> {{ "Rp. ".number_format($total_harga, 0, ',', '.') }} </p>
     </div>
 
     {{-- <div>

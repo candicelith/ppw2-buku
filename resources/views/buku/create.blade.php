@@ -1,4 +1,4 @@
-@extends('layout.master')
+@extends('auth.layout')
 
 @section('content')
 <body class="p-2">

@@ -25,4 +25,6 @@ class AuthServiceProvider extends ServiceProvider
 
         //
     }
+
+    public const HOME = '/dashboard';
 }
