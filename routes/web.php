@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\SendEmailController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BukuController;
 use App\Http\Controllers\LoginRegisterController;
@@ -40,3 +41,5 @@ Route::controller(LoginRegisterController::class)->group(function() {
     Route::post('/logout', 'logout')->name('logout');
 });
 
+Route::get('/send-mail', [SendEmailController::class, 'index'])->name(name: 'kirim-email');
+Route::post('/post-email', [SendEmailController::class, 'store'])->name(name: 'post-email');
