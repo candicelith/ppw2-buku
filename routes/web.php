@@ -4,6 +4,8 @@ use App\Http\Controllers\SendEmailController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BukuController;
 use App\Http\Controllers\LoginRegisterController;
+use Illuminate\Support\Facades\Storage;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -24,15 +26,15 @@ Route::get('/buku', [BukuController::class, 'index']);
 Route::get('/bukupublic', [BukuController::class, 'indexpublic'])->name('buku.index.public');
 Route::get('/admin/buku', [BukuController::class, 'indexadmin'])->name('buku.index.admin');
 
-Route::get('/buku/create', [BukuController::class, 'create'])->name('buku.create');
-Route::post('/buku', [BukuController::class, 'store'])->name('buku.store');
-Route::delete('/buku/{id}', [BukuController::class, 'destroy'])->name('buku.destroy');
-Route::get('/buku/{id}', [BukuController::class, 'update'])->name('buku.update');
-Route::put('/buku/{id}', [BukuController::class, 'edit'])->name('buku.edit');
-Route::post('/buku/{id}', [BukuController::class, 'edit'])->name('buku.edit');
-Route::get('/buku/search', [BukuController::class, 'search'])->name('buku.search');
+Route::get('/buku/create', [BukuController::class, 'create'])->name('buku.create')->middleware('admin');
+Route::post('/buku', [BukuController::class, 'store'])->name('buku.store')->middleware('admin');
+Route::delete('/buku/{id}', [BukuController::class, 'destroy'])->name('buku.destroy')->middleware('admin');
+Route::get('/buku/{id}', [BukuController::class, 'update'])->name('buku.update')->middleware('admin');
+Route::put('/buku/{id}', [BukuController::class, 'edit'])->name('buku.edit')->middleware('admin');
+Route::post('/buku/{id}', [BukuController::class, 'edit'])->name('buku.edit')->middleware('admin');
+Route::get('/buku/search', [BukuController::class, 'search'])->name('buku.search')->middleware('admin');
 
-Route::controller(LoginRegisterController::class)->group(function() {
+Route::controller(LoginRegisterController::class)->group(function () {
     Route::get('/register', 'register')->name('register');
     Route::post('/store', 'store')->name('store');
     Route::get('/login', 'login')->name('login');
@@ -43,3 +45,5 @@ Route::controller(LoginRegisterController::class)->group(function() {
 
 Route::get('/send-mail', [SendEmailController::class, 'index'])->name(name: 'kirim-email');
 Route::post('/post-email', [SendEmailController::class, 'store'])->name(name: 'post-email');
+
+Storage::disk('local')->put('file.txt', 'Contents');

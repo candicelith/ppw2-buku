@@ -8,21 +8,24 @@ use Illuminate\Http\Request;
 
 class LoginRegisterController extends Controller
 {
-    public function __construct() {
+    public function __construct()
+    {
         $this->middleware('guest')->except(
             ['logout', 'dashboard']
         );
     }
 
-    public function register() {
+    public function register()
+    {
         return view('auth.register');
     }
 
-    public function store(Request $request) {
-        $request->validate( [
+    public function store(Request $request)
+    {
+        $request->validate([
             'name' => 'required|string|max:250',
             'email' => 'required|email|max:250|unique:users',
-            'password' => 'required|min:8|confirmed'
+            'password' => 'required|min:8|confirmed',
         ]);
 
         User::create([
@@ -39,11 +42,13 @@ class LoginRegisterController extends Controller
         return redirect()->route('dashboard')->withSuccess('Registrasi Berhasil');
     }
 
-    public function login() {
+    public function login()
+    {
         return view('auth.login');
     }
 
-    public function authenticate(Request $request) {
+    public function authenticate(Request $request)
+    {
         $credentials = $request->validate([
             'email' => 'required|email',
             'password' => 'required'
@@ -53,7 +58,7 @@ class LoginRegisterController extends Controller
             $request->session()->regenerate();
 
             return redirect()->route('dashboard')
-            ->withSuccess('Login Berhasil');
+                ->withSuccess('Login Berhasil');
         }
 
         return back()->withErrors([
@@ -61,23 +66,25 @@ class LoginRegisterController extends Controller
         ])->onlyInput('email');
     }
 
-    public function dashboard() {
+    public function dashboard()
+    {
         if (Auth::check()) {
             return redirect()->route('buku.index.admin');
         }
 
         return redirect()->route('login')
-        ->withErrors([
-            'email' => 'Silahkan Login Terlebih Dahulu'
-        ])->onlyInput('email');
+            ->withErrors([
+                'email' => 'Silahkan Login Terlebih Dahulu'
+            ])->onlyInput('email');
     }
 
-    public function logout(Request $request) {
+    public function logout(Request $request)
+    {
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
         return redirect()->route('login')
-        ->withSuccess('Logout Berhasil');
+            ->withSuccess('Logout Berhasil');
     }
 }
